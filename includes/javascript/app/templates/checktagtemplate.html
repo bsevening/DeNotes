@@ -1,0 +1,8 @@
+<div class="tag-select">
+	{[ if (noteid !== "") { ]}
+		<input class="checkTags" value="{{ id }}" checked="checked" type="checkbox">
+	{[ } else { ]}
+		<input class="checkTags" value="{{ id }}" type="checkbox">
+	{[ } ]}
+</div>
+<div class="tag-content">{{ tagname }}</div>
