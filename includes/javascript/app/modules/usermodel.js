@@ -42,8 +42,7 @@ function(namespace, $, _, Backbone, mediator) {
 		login: function(name, password, rememberme) {
 			var that = this;
 			this.fetch({
-				url :  "/DeNotes/index.cfm/security/doLogin/" + name + "/" + password + "/" + rememberme,
-				//data: { username: name, password: password, rememberme: rememberme},
+				url :  "/DeNotes/index.cfm/security/doLogin/" + name + "/" + password + "/" + rememberme,				
 				success: function(model, response) {
 					//view.render();
 					if (response.error) {
