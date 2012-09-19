@@ -25,9 +25,10 @@
 			
 			<div class="clear">&nbsp;</div>
 			
-			<a id="forgotpassword" href="security.forgotPassword">forgot password?</a>
+			<span id="forgotpasswordlink" class="loginlink">forgot password?</a>
+			<span id="newuserlink" class="loginlink">new user?</a>
 		</form>
-		
+		<div id="newuserdialog" title="New User"></div>
 	</div>
 	
 </cfoutput>

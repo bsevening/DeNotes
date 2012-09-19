@@ -1,7 +1,6 @@
 ﻿component accessors="true" {
 
 	property name="tagService"	inject="TagService";
-	//property name="roleService"	inject="model:roleService@solitary";
 	property name="sessionStorage"	inject="coldbox:plugin:SessionStorage";
 	property name="noteTagsService"	inject="NoteTagsService";
 

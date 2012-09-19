@@ -17,6 +17,7 @@ require.config({
 	jqueryUI: "../../javascript/assets/js/libs/jquery-ui-1.8.21.custom.min",
 	elrte: "../../javascript/assets/js/libs/elrte-1.3/js/elrte.full",
 	
+	validate: "../../javascript/assets/js/plugins/jquery.validate.min",
     use: "../../javascript/assets/js/plugins/use",
 	cookie: "../../javascript/assets/js/plugins/jquery.cookie",
 	//cancel: "../../javascript/assets/js/libs/elrte-1.3/src/elrte/js/ui/cancel"
@@ -27,7 +28,11 @@ require.config({
     backbone: {
       deps: ["use!underscore", "jquery"],
       attach: "Backbone"
-    },	
+    },
+	
+	validation: {
+		deps: ["jquery"]	
+	},	
 	
 	cookie: {
 	  deps: ["jquery"]	

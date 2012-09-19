@@ -50,7 +50,7 @@ Description :
 			]			
 		};
 		
-		// Map Bindings below
+		// Map Bindings below					
 		map("NoteService")
 			.to("DeNotes.model.notes.NoteService")
 			.asSingleton();

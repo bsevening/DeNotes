@@ -1,49 +1,3 @@
-<cfoutput>
-<h1>User Editor</h1>
-<form action="#event.buildLink('security.users.save')#" method="POST" name="newPostForm">
-	
-	<input type="hidden" name="context" value="create">		
-	<fieldset>
-		<legend>General Information</legend>
-		<div>
-			<label for="firstname">First Name:</label>
-			<input type="text" name="firstName" value="#rc.user.getFirstName()#"/>
-		</div>
-		<div>
-			<label for="lastName">Last Name:</label>
-			<input type="text" name="lastname" value="#rc.user.getLastName()#"/>
-		</div>
-		<div>
-			<label for="email">Email Address:</label>
-			<input type="text" name="email" value="#rc.user.getEmail()#"/>
-		</div>		
-	</fieldset>
-	
-	<fieldset>
-		<legend>Login Information</legend>
-		<div>
-			<label for="username">Username:</label>
-			<input type="text" id="username" name="username" value="#rc.user.getUsername()#"/>
-			<span id="validateUsername" class="help">between 5-20 characters</span>
-		</div>		
-		<div>
-			<label for="password">Password:</label>
-			<input type="password" name="password" value=""/>
-			<a id="generate" href="##">Generate Password</a>
-		</div>	
-		<div>
-			<label for="confirmPassword">Confirm Password:</label>
-			<input type="password" name="confirmPassword" value=""/>
-		</div>
-	</fieldset>
-	
-	<div align="right">
-		<input type="button" value="Cancel" onclick="location.href='#event.buildLink('security.users.list')#'"> 
-		<input type="submit" value="Save">
-	</div>
-</form>
-
-<script type="application/javascript">
 
 	$(function(){
 		var pass = password(8).toUpperCase();
@@ -115,5 +69,3 @@
 	
 		return password;
 	}	
-</script>
-</cfoutput>

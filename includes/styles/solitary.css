@@ -5,6 +5,22 @@ form {
 }
 
 fieldset {
+	float:left;
+	margin-left:20px;
+	margin-right:20px;
+}
+
+#newUserForm label  {
+	clear:both;
+	display:block;
+}
+
+
+.loginlink{
+	margin-left:15px;
+	color: #0088DD;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 legend {
@@ -30,8 +46,8 @@ select {
     padding: 10px 0px;
 }
 
-.required {
-    font-size: 15px;
+.error {
+    font-size: 0.7em;
     font-weight: bold;
     color: red;
 }

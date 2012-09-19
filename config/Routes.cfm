@@ -30,7 +30,8 @@
 	});
 	addRoute(pattern="Note/:id?/:tagid-numeric?",handler="Note",action={
   		GET = "getNotes", POST = "create", PUT = "save", DELETE = "remove", HEAD ="info"
-	});
+	});	
+	
 	addRoute(pattern=":handler/:action?");
 
 

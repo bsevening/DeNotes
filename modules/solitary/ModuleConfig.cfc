@@ -51,12 +51,15 @@ component {
 			{pattern="/doLogin/:username/:password/:rememberme", handler="security", action={
 			  GET = "doLogin", POST = "doLogin", PUT = "save", DELETE = "remove", HEAD ="info"
 			}},
+			{pattern="/doLogin", handler="security", action={
+			  GET = "doLogin"
+			}},
 			{pattern="/getUser", handler="security", action={
 			  GET = "getUser", POST = "getUser", PUT = "save", DELETE = "remove", HEAD ="info"
 			}},	
 			{pattern="/logout", handler="security", action={
 			  GET = "logout", POST = "logout", PUT = "save", DELETE = "remove", HEAD ="info"
-			}},		
+			}},
 			{pattern="/logout", handler="security",action="logout"},
 			{pattern="/forgotPassword", handler="security",action="forgotPassword"},
 			{pattern="/resetPassword/:eph", handler="security",action="resetPassword"},
@@ -66,7 +69,7 @@ component {
 			{pattern="/users/list", handler="users",action="list"},
 			{pattern="/users/list/role/:id", handler="users",action="list"},
 			{pattern="/users/edit/:id?", handler="users",action="edit"},
-			{pattern="/users/save", handler="users",action="save"},
+			{pattern="/users/save", handler="users", action={ POST = "save" }},
 			{pattern="/users/remove/:id", handler="users",action="remove"},
 			{pattern="/users/usernameExists/:username", handler="users",action="usernameExists"},
 			{pattern="/roles/list", handler="roles",action="list"},

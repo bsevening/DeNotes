@@ -7,7 +7,7 @@ function(namespace, $, _, Backbone, mediator) {
 	
 	UserModel.Model = Backbone.Model.extend({
 		
-		urlRoot: '/DeNotes/index.cfm/security/getUser/',		
+		url: 'http://servermachine.bsevening.com/DeNotes/index.cfm/security/users/save',		
 		
 		parse: function(response) {
 	      return response.data;
@@ -63,12 +63,32 @@ function(namespace, $, _, Backbone, mediator) {
 		getUser: function() {
 			var that = this;
 			this.fetch({
+				url: '/DeNotes/index.cfm/security/getUser/',
 				success: function(model, response) {
 					model.set(response.User);
 					model.set('userName', $.cookie("USERNAME", {path:"/", raw: true}));					
 					that.triggerState();
 				},
 				error: function() {alert("Network error getting user! Please try again.");},
+				 
+			});
+			
+			return false;
+		},
+		
+		createUser: function() {
+			var that = this;
+			that.save({},{				
+				success: function(model, response) {
+					if (response.error) {
+						$("#loginError").html("Your user name or password are incorrect "  + response.username + ".").show();
+					} else {
+						$("#loginError").hide();
+						model.set(response.User);
+						that.triggerState();
+					}
+				},
+				error: function() {alert("Network error creating new user! Please try again.");},
 				 
 			});
 			

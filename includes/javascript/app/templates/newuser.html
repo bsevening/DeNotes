@@ -1,0 +1,39 @@
+<!--action="#event.buildLink('security.users.save')#"-->
+<form id="newUserForm" method="POST" name="newPostForm">
+	
+	<input type="hidden" name="context" value="create">		
+	<fieldset class="fieldsetfloat">
+		<legend>General Information</legend>
+		<div>
+			<label for="firstname">First Name:</label>
+			<input class="required" type="text" id="firstName" name="firstName" value=""/>
+		</div>
+		<div>
+			<label for="lastName">Last Name:</label>
+			<input class="required" type="text" id="lastName" name="lastname" value=""/>
+		</div>
+		<div>
+			<label for="email">Email Address:</label>
+			<input class="required email" type="text" id="email" name="email" value=""/>
+		</div>		
+	</fieldset>
+	
+	<fieldset class="fieldsetfloat">
+		<legend>Login Information</legend>
+		<div>
+			<label for="username">Username:</label>
+			<input class="required" type="text" id="newusername" name="newusername" value="" minlength="5" maxlength="20"/>
+			<span id="validateUsername" class="help">between 5-20 characters</span>
+		</div>		
+		<div>
+			<label for="password">Password:</label>
+			<input type="password" id="newuserpassword" name="newuserpassword" value=""/>
+			<span id="generate">Generate Password</span>
+		</div>	
+		<div>
+			<label for="confirmPassword">Confirm Password:</label>
+			<input class="required" equalTo="#newuserpassword" type="password" id="confirmPassword" name="confirmPassword" value=""/>
+		</div>
+	</fieldset>	
+</form>
+<div class="clearfix"></div>
