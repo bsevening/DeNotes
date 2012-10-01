@@ -36,6 +36,48 @@ function(namespace, $, _, UserModel, AccessView, WelcomeUserView, facade, mediat
             app.noteRouter.navigate("/");
         }
     };
+	
+	loginController.userForgotPassword = function(event) {
+		var forgotPasswordView = new AccessView.Views.ForgotPasswordView({
+            model: userModel
+        });
+		
+		var dfd = forgotPasswordView.pre_render();
+		dfd.done(function(tmpl){
+			
+	        var forgotPasswordDialog = $("#forgotpassworddialog").dialog({
+	            autoOpen: false,
+	            modal: true,
+	            width: "auto",
+	            position: ['left', 'top'],
+	            open: function(){
+	                //$(this).closest(".ui-dialog").find(".ui-dialog-titlebar:first").hide();
+	                $("#forgotpassworddialog.ui-dialog-content").html(forgotPasswordView.el);                        
+	                $('#forgotPasswordForm', forgotPasswordView.render(tmpl).el).validate({
+	                    errorPlacement: function(error, element){
+	                        error.insertBefore(element);
+	                    },
+	                 
+	                    onkeyup: false,
+	                    debug: true
+	                });
+	            },
+	            buttons: {
+	                "Continue": function(){
+	                    userModel.submitForgotPassword($("#forgotemail", this).val());
+						forgotPasswordView.close();						
+						$(this).dialog("destroy");
+	                },
+	                "Cancel": function(){
+						forgotPasswordView.close();
+	                    $(this).dialog("destroy");
+	                }
+	            }
+	        });
+	        $(forgotPasswordDialog).dialog('open');
+			
+		});
+	};	
     
     loginController.newUser = function(e){    	
 		
@@ -43,37 +85,43 @@ function(namespace, $, _, UserModel, AccessView, WelcomeUserView, facade, mediat
             model: userModel
         });
         
-        $(newUserView.render().el).show('fast', function(){
-            var newUserDialog = $("#newuserdialog").dialog({
-                autoOpen: false,
-                modal: true,
-                width: "auto",
-                position: ['left', 'top'],
-                open: function(){
-                    //$(this).closest(".ui-dialog").find(".ui-dialog-titlebar:first").hide();
-                    $("#newuserdialog.ui-dialog-content").html(newUserView.el);                        
-                    $('#newUserForm', newUserView.el).validate({
-                        errorPlacement: function(error, element){
-                            error.insertBefore(element);
-                        },
-                        submitHandler: function(form){
-                            newUserView.createUser();
-                        },
-                        onkeyup: false,
-                        debug: true
-                    });
-                },
-                buttons: {
-                    "Save": function(){
-                        $("#newUserForm").submit();
-                    },
-                    "Cancel": function(){
-                        $(this).dialog("destroy");
-                    }
-                }
-            });
-            $(newUserDialog).dialog('open');
-        });
+		// Need to use jQuery promise returned from fetch template or the validate
+		// will fail. Dom won't be ready on initial fetch. Template is cached after initial fetch.
+		var dfd = newUserView.pre_render();
+		dfd.done(function(tmpl){
+			
+	        var newUserDialog = $("#newuserdialog").dialog({
+	            autoOpen: false,
+	            modal: true,
+	            width: "auto",
+	            position: ['left', 'top'],
+	            open: function(){
+	                //$(this).closest(".ui-dialog").find(".ui-dialog-titlebar:first").hide();
+	                $("#newuserdialog.ui-dialog-content").html(newUserView.el);                        
+	                $('#newUserForm', newUserView.render(tmpl).el).validate({
+	                    errorPlacement: function(error, element){
+	                        error.insertBefore(element);
+	                    },
+	                 
+	                    onkeyup: false,
+	                    debug: true
+	                });
+	            },
+	            buttons: {
+	                "Create": function(){
+	                    $("#newUserForm").submit();
+						newUserView.close();
+						$(this).dialog("destroy");
+	                },
+	                "Cancel": function(){
+						newUserView.close();
+	                    $(this).dialog("destroy");
+	                }
+	            }
+	        });
+	        $(newUserDialog).dialog('open');
+			
+		});
     };
     
     loginController.showLogin = function(){

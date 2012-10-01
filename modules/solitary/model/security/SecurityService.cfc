@@ -2,7 +2,7 @@ import solitary.model.users.User;
 
 component accessors="true" singleton="true" {
 	
-	property name="userService" inject="model:userService@solitary";
+	property name="userService" inject="model:userService@Solitary";
 	property name="sessionStorage" inject="coldbox:plugin:SessionStorage";
 	property name="mailService" inject="coldbox:plugin:MailService";
 	property name="renderer" inject="coldbox:plugin:Renderer";
@@ -73,7 +73,7 @@ component accessors="true" singleton="true" {
 	public void function sendForgotPasswordNotification(required User user){
 		var settings = configBean.getKey("modules").solitary.settings;
 		var baseURL = len(configBean.getKey('sesBaseURL')) ? configBean.getKey('sesBaseURL') : configBean.getKey('htmlBaseURL');
-		rc.emailView = 'notification/forgotPasswordNotification';
+		rc.emailView = '/DeNotes/views/forgotPasswordNotification';
 		
 		// Create a new mail object
 		local.email = MailService.newMail().config(
@@ -90,11 +90,12 @@ component accessors="true" singleton="true" {
 		local.email.setBodyTokens({
 			firstName = arguments.user.getFirstName(),
 			lastName = arguments.user.getLastName(),
-			url = baseURL & "security/resetPassword/" & user.getEmailPasswordHash()
+			url = baseURL & "/remote_resetPassword/" & user.getEmailPasswordHash()
 		});
 		
 		// Add HTML email
-		local.email.addMailPart(charset='utf-8',type='text/html',body=renderer.renderView(view=rc.emailView,module="solitary"));
+		local.email.addMailPart(charset='us-ascii',type='text/plain',body="Use the following URL to reset your password. #chr(10)# @url@");
+		local.email.addMailPart(charset='us-ascii',type='text/html',body=renderer.renderView(view=rc.emailView,module="solitary"));
 		
 		// Send the email. MailResult is a boolean.
 		local.mailResult = mailService.send(local.Email);

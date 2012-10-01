@@ -9,31 +9,17 @@
 	}
 	
 	public void function save(event){
-		requestBody = toString( getHttpRequestData().content ) ;
- 		//if (isJSON( requestBody ))
- 			//writeDump("#deserializeJSON( requestBody )#"); 
- 			
- 		//abort;
- 
-		var data = deserializeJSON( requestBody );
-		//writeDump(data);writeDump(data["id"]);abort;
-		var tag = tagService.get(data["id"]);
+		var rc = event.getCollection(); 
+		var tag = tagService.get(rc.id);
 		tag.settagname(data["tagname"]);	
 		tagService.save(tag);
-		event.renderData(type="json",data=data,jsonQueryFormat="array");
+		event.renderData(type="json",data=tag,jsonQueryFormat="array");
 	}
 	
 	public void function create(event){
-		requestBody = toString( getHttpRequestData().content ) ;
- 		//if (isJSON( requestBody ))
- 			//writeDump("#deserializeJSON( requestBody )#"); 
- 			
- 		//abort;
- 
-		//var rc = event.getCollection();
-		//writeDump("#arguments#");abort;
+		var rc = event.getCollection();		
 		var tag = tagService.new(entityName="Tag");
-		var data = tagService.populate(tag, deserializeJSON( requestBody ));
+		var data = tagService.populate(tag, rc);
 		tagService.save(tag);
 		event.renderData(type="json",data=data,jsonQueryFormat="array");
 	}

@@ -10,47 +10,33 @@
 	}
 	
 	public void function save(event){
-		requestBody = toString( getHttpRequestData().content ) ;
- 		//if (isJSON( requestBody ))
- 			//writeDump("#deserializeJSON( requestBody )#"); 
- 			
- 		//abort;
- 
-		var data = deserializeJSON( requestBody );
-		//writeDump(data);writeDump(data["id"]);abort;
-		var note = noteService.get(data["id"]);
-		var strippedTitle = noteService.getTitle(data["note"]);
+		var rc = event.getCollection();
+		var note = noteService.get(rc.id);
+		var strippedTitle = noteService.getTitle(rc.note);
 		
 		note.settitle(strippedTitle);
-		note.setnote(data["note"]);
-		note.setuserid(data["userid"]);
-		var tags = data["notetags"];
-		noteTagsService.deleteWhere(noteid=data["id"]);
+		note.setnote(rc.note);
+		note.setuserid(rc.userid);
+		var tags = rc.notetags;
+		noteTagsService.deleteWhere(noteid=rc.id);
 		for(i=1; i <= ArrayLen(tags); i++){
 			var nt = noteTagsService.new();
     		nt.settagid(tags[i]);
-			nt.setnoteid(data["id"]);
+			nt.setnoteid(rc.id);
 			noteTagsService.save(nt);			
 		}
 		
 		noteService.save(note);
-		var u_notes = noteService.executeQuery("from Note where id = :arg order by id desc",{arg=data["id"]},0,0,0,true);
+		var u_notes = noteService.executeQuery("from Note where id = :arg",{arg=rc.id},0,0,0,true);
 		event.renderData(type="json",data=u_notes,jsonQueryFormat="array");
 	}
 	
 	public void function create(event){
-		requestBody = toString( getHttpRequestData().content ) ;
- 		//if (isJSON( requestBody ))
- 			//writeDump("#deserializeJSON( requestBody )#"); 
- 			
- 		//abort;
- 
-		//var rc = event.getCollection();
+		var rc = event.getCollection();
 		//writeDump("#rc#");abort;
 		var newNote = noteService.new(entityName="Note");
-		var data = deserializeJSON( requestBody );
-		newNote.setnote(data["note"]);
-		newNote.setuserid(data["userid"]);
+		newNote.setnote(rc.note);
+		newNote.setuserid(rc.userid);
 		//noteService.populate(newNote, data, "note,userid" );
 		//writeDump(newNote);abort;
 		noteService.save(newNote);
@@ -80,7 +66,7 @@
 			
 			var start = (rc.rows * rc.page) - rc.rows;
 			var limit = "LIMIT #start#, #rc.rows#";
-			var sort = "ORDER BY n." & rc.orderby; 	
+			var sort = "ORDER BY n." & rc.orderby & " DESC"; 	
 			
 			results = queryService.execute(sql="Select n.noteid as id, n.title as title, n.userid as userid from note n 
 			JOIN notetags nt where n.noteid = nt.noteid and n.userid = :userid and nt.tagid = :tagid 
@@ -110,7 +96,7 @@
 			} else {
 				var start = (rc.rows * rc.page) - rc.rows;
 				var limit = "LIMIT #start#, #rc.rows#";
-				var sort = "ORDER BY n." & "#rc.orderby#";
+				var sort = "ORDER BY n." & rc.orderby & " DESC";
 				 	 
 				results = queryService.execute(sql="Select n.noteid as id, n.title as title, n.userid as userid from note n 
 				where n.userid = :id #sort# #limit#");

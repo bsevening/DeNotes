@@ -32,7 +32,7 @@ require.config({
 	
 	validation: {
 		deps: ["jquery"]	
-	},	
+	},
 	
 	cookie: {
 	  deps: ["jquery"]	
@@ -43,7 +43,7 @@ require.config({
 	},
 	
 	elrte: {
-	  deps: ["jquery", "jqueryUI"]
+	  deps: ["jqueryUI"]
 	},
 
     underscore: {

@@ -1,4 +1,4 @@
-﻿component accessors="true" {
+component accessors="true" {
 
 	property name="userService"	inject="model:userService@solitary";
 	property name="roleService"	inject="model:roleService@solitary";
@@ -33,21 +33,29 @@
 	}	
 
 	public void function save(event){
-		var rc = event.getCollection();
-		requestBody = toString( getHttpRequestData().content ) ; 		
-		var data = deserializeJSON( requestBody );
-		StructDelete(data, "$MIXED");
-		StructDelete(data, "CONSTRAINTS");
-		//writeDump(data); abort;			
-		rc.user = populateModel(userService.new(entityName="User", properties=data));
-		rc.username = data.username;
-		rc.password = data.password;
+		var rc = event.getCollection();		
+		var roles = [];
+		rc.user = populateModel( userService.get(id=rc.userID) );
+		
+		event.paramValue("roles","");
+		
+		if(len(rc.roles)){
+			// oUser.addRoles() takes an array of roles to add to the user
+			// userService.addRoles returns an array of roles
+			roles = userService.addRoles(rc.roles);
+		}
+				
+		// if they have added a new role		
+		if(len(rc.addrole)){
+			//arrayAppend(roles,userService.addNewRole(rc.addrole));
+			userService.addNewRole(rc.addrole);
+		}
+		
+		rc.user.addRoles(roles);
 		
 		userService.save( rc.user );
-		//writeDump("#rc.user.getuserid()#"); abort;
-		//var u_user = userService.executeQuery("from User where id = :arg",{arg=rc.user.getuserid()},0,0,0,true);
-		//event.renderData(type="json",data=u_user,jsonQueryFormat="array");
-		setNextEvent(event:"security/doLogin", persist:"username,password");
+		getPlugin("MessageBox").setMessage("info","User saved!");
+		setNextEvent('security.users.list');
 	}
 	
 	public void function remove(event){
