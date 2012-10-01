@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>Backbone Boilerplate Jasmine Test Suite</title>
+
+  <!-- Jasmine styles -->
+  <link rel="stylesheet" href="includes/javascript/test/jasmine/vendor/jasmine.css">
+</head>
+
+<body>
+  <!-- Testing libs -->
+  <script src="includes/javascript/test/jasmine/vendor/jasmine.js"></script>
+  <script src="includes/javascript/test/jasmine/vendor/jasmine-html.js"></script>
+
+  <!-- Application libs -->
+  <script src="includes/javascript/assets/js/libs/jquery.js"></script>
+  <script src="includes/javascript/assets/js/libs/underscore.js"></script>
+  <script src="includes/javascript/assets/js/libs/backbone.js"></script>
+  
+  <!-- Load application -->
+  <script data-main="includes/javascript/app/config"
+    src="includes/javascript/assets/js/libs/require.js"></script>
+
+  <!-- Declare your spec files to be run here -->
+  <script>
+    // Ensure you point to where your spec folder is, base directory is app/,
+    // which is why ../test is necessary
+    require({ paths: { spec: "../test/jasmine/spec" } }, [
+
+      // Load the example spec, replace this and add your own spec
+      "spec/example"
+
+    ], function() {
+      // Set up the jasmine reporters once each spec has been loaded
+      jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+      jasmine.getEnv().execute();
+    });
+  </script>
+</body>
+</html>
