@@ -13742,3 +13742,5 @@ Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExce
 "INFO","COLDBOXFILE","09/10/2012","15:41:54","coldbox.system.cache.providers.CacheBoxColdBoxProvider","Finished reap in 186ms for CacheBoxProvider: default, id: 3347405"
 "INFO","COLDBOXFILE","09/12/2012","21:11:19","coldbox.system.cache.providers.CacheBoxColdBoxProvider","CacheBox Cache: default has been initialized successfully for operation"
 "INFO","COLDBOXFILE","09/12/2012","21:11:19","coldbox.system.cache.providers.CacheBoxColdBoxProvider","CacheBox Cache: TEMPLATE has been initialized successfully for operation"
+"INFO","COLDBOXFILE","10/01/2012","08:33:38","coldbox.system.cache.providers.CacheBoxColdBoxProvider","CacheBox Cache: default has been initialized successfully for operation"
+"INFO","COLDBOXFILE","10/01/2012","08:33:38","coldbox.system.cache.providers.CacheBoxColdBoxProvider","CacheBox Cache: TEMPLATE has been initialized successfully for operation"
