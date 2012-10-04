@@ -51,6 +51,27 @@ Description :
 		};
 		
 		// Map Bindings below
+		
+		/*map("securityService")
+			.to("DeNotes.modules.solitary.model.security.SecurityService")
+			.asSingleton();
+			
+		map("userService")
+			.toDSL("DeNotes.modules.solitary.model.users.UserService")
+			.asSingleton();
+			
+		map("cookieStorage")
+			.toDSL("coldbox:plugin:CookieStorage")
+			.asSingleton();
+			
+		map("Remote_security")
+			.to("DeNotes.handlers.Remote_security")
+			.initArg(name="securityService",ref="securityService")
+			.initArg(name="userService",ref="userService")
+			.initArg(name="cookieStorage",ref="cookieStorage")
+			.asSingleton()
+			.asEagerInit();*/
+								
 		map("NoteService")
 			.to("DeNotes.model.notes.NoteService")
 			.asSingleton();
@@ -64,7 +85,8 @@ Description :
 			.asSingleton();
 			
 		map("NoteTag")
-			.to("DeNotes.model.NoteTags");
+			.to("DeNotes.model.NoteTags")
+			.asSingleton();
 	}	
 </cfscript>
 </cfcomponent>

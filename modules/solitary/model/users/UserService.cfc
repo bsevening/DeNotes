@@ -1,6 +1,6 @@
-component extends="coldbox.system.orm.hibernate.VirtualEntityService" singleton {
+component extends="coldbox.system.orm.hibernate.VirtualEntityService" {
 	
-	property name="roleService"	inject="model:roleService@solitary";
+	property name="roleService"	inject="model:roleService@Solitary";
 	
 	public UserService function init(){
 		super.init(entityName="User");

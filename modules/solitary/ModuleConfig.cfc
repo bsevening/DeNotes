@@ -25,7 +25,7 @@ component {
 		// module settings - stored in modules.name.settings
 		settings = {
 			// emails are sent from
-			sendEmailFrom = "admin@localhost"
+			sendEmailFrom = "brad@dataenigma.com"
 		};
 		
 		// Layout Settings
@@ -43,20 +43,12 @@ component {
 		
 		};
 		
-		// SES Routes
+		// SES Routes			
 		routes = [
-			{pattern="/", handler="security",action="index"},	
-			{pattern="/docs", handler="docs",action="index"},	
-			{pattern="/login", handler="security",action="login"},		
-			{pattern="/doLogin/:username/:password/:rememberme", handler="security", action={
-			  GET = "doLogin", POST = "doLogin", PUT = "save", DELETE = "remove", HEAD ="info"
-			}},
-			{pattern="/getUser", handler="security", action={
-			  GET = "getUser", POST = "getUser", PUT = "save", DELETE = "remove", HEAD ="info"
-			}},	
-			{pattern="/logout", handler="security", action={
-			  GET = "logout", POST = "logout", PUT = "save", DELETE = "remove", HEAD ="info"
-			}},		
+			{pattern="/", handler="security",action="index"},
+			{pattern="/docs", handler="docs",action="index"},
+			{pattern="/login", handler="security",action="login"},
+			{pattern="/doLogin", handler="security",action="doLogin"},
 			{pattern="/logout", handler="security",action="logout"},
 			{pattern="/forgotPassword", handler="security",action="forgotPassword"},
 			{pattern="/resetPassword/:eph", handler="security",action="resetPassword"},
@@ -73,8 +65,8 @@ component {
 			{pattern="/roles/edit/:id?", handler="roles",action="edit"},
 			{pattern="/roles/save", handler="roles",action="save"},
 			{pattern="/roles/remove/:id", handler="roles",action="remove"},
-			{pattern="/sessiontracking/current", handler="sessiontracking",action="current"},		
-			{pattern="/sessiontracking/active", handler="sessiontracking",action="active"}				
+			{pattern="/sessiontracking/current", handler="sessiontracking",action="current"},
+			{pattern="/sessiontracking/active", handler="sessiontracking",action="active"}
 		];
 		
 		// Custom Declared Points
@@ -84,6 +76,7 @@ component {
 		
 		// Custom Declared Interceptors
 		interceptors = [
+			 {class="#moduleMapping#.interceptors.JSONInterceptor", properties={}},
 			 //security 
 			 {class="coldbox.system.interceptors.Security",
 			 	properties={

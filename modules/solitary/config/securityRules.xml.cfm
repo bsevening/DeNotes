@@ -16,7 +16,7 @@ that can be found in an event.
 -->
 <rules>
     <rule>
-        <whitelist>solitary:security\..*,docs\..*,General\..*</whitelist>
+        <whitelist>Remote_security\..*,Remote_users\.save,Remote_users\.usernameExists,solitary:security\..*,docs\..*,General\..*</whitelist>
         <securelist>\..*</securelist>
         <roles>admin,author,user</roles>
         <permissions></permissions>

@@ -25,11 +25,11 @@ define(["namespace", 'jquery', 'use!underscore', 'use!backbone',
             "click div#allnotes:": "showAllNotes"
         },
         
-        render: function(done){
+        render: function(){
             var that = this;
             // Fetch the template, render it to the View element and call done.
             namespace.fetchTemplate(this.template, function(tmpl){
-                $(that.el).html(tmpl());
+                that.$el.html(tmpl());
 				that.delegateEvents();                
                 that.noteController.showNoteGroup(that);                
             });
@@ -40,7 +40,7 @@ define(["namespace", 'jquery', 'use!underscore', 'use!backbone',
         addNew: function(e){
             var that = this;
 			var webeditor = $("#note_group").find(".note-content:first").get(0);
-            if (! webeditor['elrte']) { // check to see if new note open.
+            if (typeof(webeditor) === 'undefined' || ! webeditor['elrte']) { // check to see if new note open.
 				that.noteController.showNewNote(that);				
 			}
         },
@@ -61,11 +61,8 @@ define(["namespace", 'jquery', 'use!underscore', 'use!backbone',
         className: 'a_note',
         
         initialize: function(){
-            _.bindAll(this, 'render', 'close', 'showTags', 'removeNote'); //_.bindAll(this, 'render', 'close');            
-			//this.model.on('destroy', this.close);
-			//this.model.on('sync', this.render); 
-			this.bindTo(this.model, 'destroy', this.close);
-			this.bindTo(this.model, 'sync', this.render);          
+            _.bindAll(this, 'close', 'showTags', 'removeNote'); //_.bindAll(this, 'render', 'close');            			
+			this.bindTo(this.model, 'destroy', this.close);			        
         },
         
         events: {
@@ -75,15 +72,27 @@ define(["namespace", 'jquery', 'use!underscore', 'use!backbone',
             "click div.note-closed-delete": "removeNote",
 			"click div.note-open-delete": "removeNote"
         },
+		
+		pre_render: function(){
+			var that = this;
+			var dfd = namespace.fetchTemplate(this.template);			
+			
+			return dfd;
+		},
         
-        render: function(done){
+        render: function(tmpl){						
             var that = this;
             var data = that.model.toJSON();
             
             // Fetch the template, render it to the View element and call done.
-            namespace.fetchTemplate(this.template, function(tmpl){
-                that.el.innerHTML = tmpl(data);
-            });
+			if (! _.isFunction(tmpl)) {
+				namespace.fetchTemplate(this.template, function(tmpl){
+					that.el.innerHTML = tmpl(data);
+				});
+			} else {
+				that.el.innerHTML = tmpl(data);
+			}
+			
             return this;
         },
         

@@ -7,21 +7,15 @@ component accessors="true" {
 		
 	public void function index(event){
 		setNextEvent("security/login");
-	}		public void function login(event){
+	}	
+
+	public void function login(event){
 		var rc = event.getCollection();
 		// if the user checks remember me we drop a cookie with their username
 		// if the cookie does not exist the cookieStorage returns an empty string
 		rc.username = cookieStorage.getVar('username');
 		
 		event.setView(name="security/login",layout="layout.login");
-	}
-	
-	public void function getUser(event){
-		var rc = event.getCollection();
-		// if the user checks remember me we drop a cookie with their username
-		// if the cookie does not exist the cookieStorage returns an empty string
-		
-		event.renderData(type="json",data=securityService.getUserSession(),jsonQueryFormat="array");
 	}
 
 	public void function doLogin(event){
@@ -35,30 +29,30 @@ component accessors="true" {
 			securityService.updateUserLoginTimestamp();
 			// if the user selected remember set a cookie
 			if( rc.rememberme ){
-				cookieStorage.setVar("username",trim(rc.username),999);
-			}
-				
-			//setNextEvent( variables.defaultEvent );
-			event.renderData(type="json",data=securityService.getUserSession(),jsonQueryFormat="array");
+				cookieStorage.setVar("username",rc.username,999);
+			}			
+			setNextEvent( variables.defaultEvent );
 		}
 		else{
-			var error = {error = "login", username = rc.username};
-			var loginError = SerializeJSON(error);
-			event.renderData(type="json",data=error,jsonQueryFormat="array");
+			getPlugin("MessageBox").setMessage("error","Login Failed: Please try again.");
+			setNextEvent("security.login");
 		}
 		
-	}		
+	}		
+
 	/**
 	 * a user is 'logged in' if a valid seesion exists for them
 	 * to log them out simply remove the session user map
-	 */	public void function logout(event){
+	 */
+	public void function logout(event){
 		securityService.deleteUserSession();
-		event.renderData(type="json",data=securityService.getUserSession(),jsonQueryFormat="array");
+		setNextEvent("security.login");
 	}
 	
 	/**
 	 * forgot password
-	 */		public void function forgotPassword(){
+	 */	
+	public void function forgotPassword(){
 		var rc = event.getCollection();
 		var userFound = false;
 		
@@ -83,7 +77,8 @@ component accessors="true" {
 			}			
 		}
 		
-	}
+	}
+
 	/**
 	 *
 	 */

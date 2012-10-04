@@ -24,22 +24,25 @@ function(namespace, $, _, NoteModel, NoteCollection, NotesGroup, PaginatedView, 
         var newNoteModel = new NoteModel.Model({
             'userid': userModel.get('userid')
         });
-        var note = collection.create(newNoteModel);
-        var noteView = new NotesGroup.Views.NoteView({
-            model: note,
-            collection: collection
-        });
-		
-        view.storeChild(noteView);
-        
-		// Kind of a hack to make sure note is added to dom before
-		// triggering the click.
-        $(noteView.render().el).show('fast', function(){
-            $notes.prepend(this); // Adds new note at the top.
-            var $noteContent = $('div.note-content:first', this);
-            $noteContent.trigger('click'); // Open the Erlte editor.
-        });
-                
+        var note = collection.create(newNoteModel, {
+            wait: true,
+            success: function(model, response){
+				 var noteView = new NotesGroup.Views.NoteView({
+		            model: note,
+		            collection: collection
+		        });
+				
+		        view.storeChild(noteView);
+                // Kind of a hack to make sure note is added to dom before
+				// triggering the click.
+		        var dfd = noteView.pre_render();
+				dfd.done(function(tmpl){
+					noteView.render(tmpl)
+					$notes.prepend(noteView.el);
+					noteView.$('div.note-content').trigger('click');
+				});					         		    
+            }
+        });       		             
     };
     
     noteController.showNoteGroup = function(view){

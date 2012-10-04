@@ -1,4 +1,4 @@
-﻿component accessors="true" {
+component accessors="true" {
 
 	property name="userService"	inject="model:userService@solitary";
 	property name="roleService"	inject="model:roleService@solitary";
@@ -36,7 +36,6 @@
 		var rc = event.getCollection();		
 		var roles = [];
 		rc.user = populateModel( userService.get(id=rc.userID) );
-		//writeDump(rc.user); abort;
 		
 		event.paramValue("roles","");
 		

@@ -31,6 +31,24 @@
 	addRoute(pattern="Note/:id?/:tagid-numeric?",handler="Note",action={
   		GET = "getNotes", POST = "create", PUT = "save", DELETE = "remove", HEAD ="info"
 	});
+	
+	addRoute(pattern="/remote_doLogin/:username/:password/:rememberme", handler="Remote_security", action={
+			  GET = "doLogin", POST = "doLogin", PUT = "save", DELETE = "remove", HEAD ="info"
+			});
+			
+	addRoute(pattern="/remote_getUser", handler="Remote_security", action={
+			  GET = "getUser", POST = "getUser", PUT = "save", DELETE = "remove", HEAD ="info"
+			});	
+	addRoute(pattern="/remote_logout", handler="Remote_security", action={
+			  GET = "logout", POST = "logout", PUT = "save", DELETE = "remove", HEAD ="info"
+			});
+	addRoute(pattern="/remote_users/save", handler="Remote_users", action={ POST = "save" });
+	addRoute(pattern="/remote_users/usernameExists/:username", handler="Remote_users",action="usernameExists");
+	addRoute(pattern="/remote_forgotpassword/:email", handler="Remote_security",action="forgotPassword");
+	addRoute(pattern="/remote_resetPassword/:eph", handler="Remote_security",action="resetPassword");
+	addRoute(pattern="/remote_changePassword", handler="Remote_security",action="changePassword");
+	addRoute(pattern="/remote_doChangePassword", handler="Remote_security",action="doChangePassword");	
+	
 	addRoute(pattern=":handler/:action?");
 
 

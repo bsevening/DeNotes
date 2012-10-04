@@ -45,7 +45,7 @@ Optional Methods
 		coldbox = {
 			//Application Setup
 			appName 				= "DeNotes",
-			coldbox_app_mapping     = "DeNotes",
+			app_mapping     		= "DeNotes",
 			eventName 				= "event",
 
 			//Development Settings
@@ -80,21 +80,21 @@ Optional Methods
 			customErrorTemplate		= "",
 
 			//Application Aspects
-			handlerCaching 			= false,
-			eventCaching			= false,
+			handlerCaching 			= true,
+			eventCaching			= true,
 			proxyReturnCollection 	= false
 		};
 
-		// custom settings
-		settings = {
-
-		};
 
 		// environment settings, create a detectEnvironment() method to detect it yourself.
 		// create a function with the name of the environment so it can be executed if that environment is detected
 		// the value of the environment is a list of regex patterns to match the cgi.http_host.
 		environments = {
-			//development = "^cf8.,^railo."
+			development = "servermachine.bsevening.com,192.168.0.103"
+		};
+		
+		settings = {
+			messagebox_style_override = true
 		};
 
 		// Module Directives
@@ -121,6 +121,7 @@ Optional Methods
 					fileMaxArchives=2}
 				}
 			},
+			debug = ["coldbox.system.interceptors.Security"],
 			// Root Logger
 			root = { levelmax="DEBUG", appenders="*" },
 			// Implicit Level Categories
@@ -149,6 +150,7 @@ Optional Methods
 		//Register interceptors as an array, we need order
 		interceptors = [
 			//SES
+			{class="DeNotes.interceptors.JSONInterceptor", properties={}},
 			{class="coldbox.system.interceptors.SES",
 			 properties={ configFile = "config/Routes.cfm", LooseMatching = true}
 			}
@@ -266,8 +268,21 @@ Optional Methods
 		//Datasources
 		datasources = {
 			DeNotes   = {name="DeNotes", dbType="mysql"}
-		};
-
+		};		
+	}
+	
+	// settings if running from "localhost"
+	
+	void function development()
+	{
+		// override email settings
+		//settings.email.to = "brad@dataenigma.com";
+		//settings.email.cc = "brad@dataenigma.com";
+		// Override coldbox directives
+		coldbox.handlerCaching = false;
+		coldbox.eventCaching = false;
+		coldbox.debugPassword = "";
+		coldbox.reinitPassword = "";
 	}
 
 </cfscript>
